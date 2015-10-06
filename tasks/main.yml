@@ -1,0 +1,7 @@
+%YAML 1.2
+---
+- name: Set up for rsyslog
+  include: rsyslog.yml
+  when: papertrail_rsyslog
+
+...

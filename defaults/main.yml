@@ -1,0 +1,34 @@
+%YAML 1.2
+---
+
+papertrail_pkg_mgr_install_latest: no
+
+papertrail_rsyslog: yes
+papertrail_rsyslog_queue_locally: yes
+papertrail_rsyslog_secure: yes
+papertrail_install_rsyslog: yes
+papertrail_rsyslogd_conf_dir: /etc/rsyslog.d
+papertrail_rsyslogd_conf_dir_mode: '0751'
+papertrail_rsyslogd_conf_file_mode: '0644'
+
+papertrail_rsyslog_tls_cert_bundle_url: 'https://papertrailapp.com/tools/papertrail-bundle.pem'
+papertrail_rsyslog_tls_cert_bundle_path: '/etc/papertrail-bundle.pem'
+papertrail_rsyslog_tls_cert_bundle_mode: '0644'
+
+papertrail_rsyslog_action_resume_interval: '10'
+papertrail_rsyslog_action_queue_size: '100000'
+papertrail_rsyslog_action_discard_mark: '97500'
+papertrail_rsyslog_action_queue_high_water_mark: '80000'
+papertrail_rsyslog_action_queue_type: 'LinkedList'
+papertrail_rsyslog_action_queue_filename: 'papertrailqueue'
+papertrail_rsyslog_action_queue_checkpoint_interval: '100'
+papertrail_rsyslog_action_queue_max_disk_space: '2g'
+papertrail_rsyslog_action_resume_retry_count: '-1'
+papertrail_rsyslog_action_queue_save_on_shutdown: 'on'
+papertrail_rsyslog_action_queue_timeout_enqueue: '2'
+papertrail_rsyslog_action_queue_discard_severity: '0'
+
+papertrail_rsyslog_template: rsyslog.j2
+papertrail_rsyslog_file: "{{ papertrail_rsyslogd_conf_dir }}/99-papertrail.conf"
+papertrail_rsyslogd_file_mode: '0644'
+...

@@ -1,0 +1,25 @@
+# {{ ansible_managed }}
+# Push system log to papertrailapp.com
+{% if papertrail_rsyslog_secure %}
+$DefaultNetstreamDriverCAFile {{ papertrail_rsyslog_tls_cert_bundle_path }} # trust these CAs
+$ActionSendStreamDriver gtls # use gtls netstream driver
+$ActionSendStreamDriverMode 1 # require TLS
+$ActionSendStreamDriverAuthMode x509/name # authenticate by hostname
+$ActionSendStreamDriverPermittedPeer *.papertrailapp.com
+{% endif %}
+{% if papertrail_rsyslog_queue_locally %}
+$ActionResumeInterval {{ papertrail_rsyslog_action_resume_interval }}
+$ActionQueueSize {{ papertrail_rsyslog_action_queue_size }}
+$ActionQueueDiscardMark {{ papertrail_rsyslog_action_discard_mark }}
+$ActionQueueHighWaterMark {{ papertrail_rsyslog_action_queue_high_water_mark }}
+$ActionQueueType {{ papertrail_rsyslog_action_queue_type }}
+$ActionQueueFileName {{ papertrail_rsyslog_action_queue_filename }}
+$ActionQueueCheckpointInterval {{ papertrail_rsyslog_action_queue_checkpoint_interval }}
+$ActionQueueMaxDiskSpace {{ papertrail_rsyslog_action_queue_max_disk_space }}
+$ActionResumeRetryCount {{ papertrail_rsyslog_action_resume_retry_count }}
+$ActionQueueSaveOnShutdown {{ papertrail_rsyslog_action_queue_save_on_shutdown }}
+$ActionQueueTimeoutEnqueue {{ papertrail_rsyslog_action_queue_timeout_enqueue }}
+$ActionQueueDiscardSeverity {{ papertrail_rsyslog_action_queue_discard_severity }}
+{% endif %}
+
+*.*   @@{{ papertrail_log_domain | mandatory }}:{{ papertrail_log_port | mandatory }}

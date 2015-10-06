@@ -1,0 +1,54 @@
+%YAML 1.2
+---
+- name: Ensure rsyslog is installed on Debian flavours
+  apt:
+    name: rsyslog
+    state: "{{ 'latest' if papertrail_pkg_mgr_install_latest else 'present' }}"
+  when: ansible_pkg_mgr == 'apt' and papertrail_install_rsyslog
+
+- name: Ensure rsyslog is installed on CentOS flavours
+  yum:
+    name: rsyslog
+    state: "{{ 'latest' if papertrail_pkg_mgr_install_latest else 'present' }}"
+  when: ansible_pkg_mgr == 'yum' and papertrail_install_rsyslog
+
+- name: Make the rsyslog.d directory
+  file:
+    path: "{{ papertrail_rsyslogd_conf_dir }}"
+    state: directory
+    mode: "{{ papertrail_rsyslogd_conf_dir_mode }}"
+    owner: "{{ papertrail_rsyslogd_conf_dir_owner | omit }}"
+    group: "{{ papertrail_rsyslogd_conf_dir_group | omit }}"
+    recurse: "{{ papertrail_rsyslogd_conf_dir_recurse | omit }}"
+
+- name: Copy the template into place
+  template:
+    src: "{{ papertrail_rsyslog_conf_file_template }}"
+    dest: "{{ papertrail_rsyslog_conf_file }}"
+    mode: "{{ papertrail_rsyslogd_conf_file_mode }}"
+    owner: "{{ papertrail_rsyslogd_conf_file_owner | omit }}"
+    group: "{{ papertrail_rsyslogd_conf_file_group | omit }}"
+  when: papertrail_rsyslog_conf_file_template is defined
+
+
+- name: Ensure the rsyslog.d directory is included
+  lineinfile:
+    state: present
+    dest: "{{ papertrail_rsyslog_conf_file }}"
+    line: "$IncludeConfig {{ papertrail_rsyslogd_conf_dir }}/*.conf"
+
+- name: Set up the certificate bundle and requirements if using secure mode
+  include: rsyslog-secure.yml
+  when: papertrail_rsyslog_secure
+
+- name: Put the papertrail config into the rsyslog.d directory
+  template:
+    src: "{{ papertrail_rsyslog_template }}"
+    dest: "{{ papertrail_rsyslog_file }}"
+    mode: "{{ papertrail_rsyslogd_file_mode }}"
+    owner: "{{ papertrail_rsyslogd_file_owner | omit }}"
+    group: "{{ papertrail_rsyslogd_file_group | omit }}"
+
+
+
+...

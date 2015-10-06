@@ -1,0 +1,36 @@
+%YAML 1.2
+---
+- name: Ensure rsyslog-gnutls is installed on Debian flavours
+  apt:
+    name: rsyslog-gnutls
+    state: "{{ 'latest' if papertrail_pkg_mgr_install_latest else 'present' }}"
+  when: ansible_pkg_mgr == 'apt' and papertrail_install_rsyslog
+
+- name: Ensure rsyslog-gnutls is installed on CentOS flavours
+  yum:
+    name: rsyslog-gnutls
+    state: "{{ 'latest' if papertrail_pkg_mgr_install_latest else 'present' }}"
+  when: ansible_pkg_mgr == 'yum' and papertrail_install_rsyslog
+
+- name: Fetch the certificate bundle and store it as a variable for use
+  uri:
+    url: "{{ papertrail_rsyslog_tls_cert_bundle_url }}"
+    return_content: yes
+  delegate_to: 127.0.0.1
+  run_once: true
+  register: papertrail_rsyslog_tls_cert_bundle_result
+  when: papertrail_rsyslog_tls_cert_bundle is not defined
+
+- name: Set as a variable to use for this server
+  set_fact:
+    papertrail_rsyslog_tls_cert_bundle: "{{ papertrail_rsyslog_tls_cert_bundle_result.content }}"
+  when: papertrail_rsyslog_tls_cert_bundle is not defined
+
+- name: Copy the bundle into position
+  template:
+    src: certificate.j2
+    dest: "{{ papertrail_rsyslog_tls_cert_bundle_path }}"
+    mode: "{{ papertrail_rsyslog_tls_cert_bundle_mode }}"
+    owner: "{{ papertrail_rsyslog_tls_cert_bundle_owner | omit }}"
+    group: "{{ papertrail_rsyslog_tls_cert_bundle_group | omit }}"
+...
