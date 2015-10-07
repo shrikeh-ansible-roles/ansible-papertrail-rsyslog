@@ -12,6 +12,7 @@ papertrail_rsyslogd_conf_dir_owner: root
 papertrail_rsyslogd_conf_dir_group: root
 papertrail_rsyslogd_conf_dir_recurse: no
 
+papertrail_rsyslog_conf_file: "/etc/rsyslog.conf"
 papertrail_rsyslogd_conf_file_mode: '0644'
 papertrail_rsyslogd_conf_file_owner: root
 papertrail_rsyslogd_conf_file_group: root
