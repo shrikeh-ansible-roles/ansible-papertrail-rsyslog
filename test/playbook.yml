@@ -2,23 +2,32 @@
 - hosts: local
   gather_facts: no
   tasks:
+    - name: Set the facts we will use
+      set_fact:
+        papertrail_test_log_domain: "{{ lookup('env','PAPERTRAIL_LOG_DOMAIN') }}"
+        papertrail_test_log_port: "{{ lookup('env','PAPERTRAIL_LOG_PORT') }}"
+        papertrail_test_hostname: "{{ lookup('env','PAPERTRAIL_TEST_HOSTNAME') }}"
+        papertrail_test_connection: "{{ lookup('env','PAPERTRAIL_TEST_CONNECTION') }}"
+    - debug:
+        var: papertrail_test_log_domain
+
+    - fail:
+        msg: Tis empty
+      when: papertrail_test_log_domain == ''
+
     - name: Add the test host
       add_host:
         groups: test
-        name: "{{ lookup('env','PAPERTRAIL_TEST_HOSTNAME') }}"
-        ansible_connection: "{{ lookup('env','PAPERTRAIL_TEST_CONNECTION') }}"
-        ansible_ssh_port: "{{ test_ssh_port | default('22') }}"
+        name: "{{ papertrail_test_hostname }}"
+        ansible_connection: "{{ papertrail_test_connection }}"
+        ansible_ssh_port: "{{ papertrail_test_ssh_port | default('22') }}"
+        papertrail_log_domain: "{{ papertrail_test_log_domain }}"
+        papertrail_log_port: "{{ papertrail_test_log_port }}"
 
 - hosts: test
   vars:
-    papertrail_log_domain: "{{ lookup('env','PAPERTRAIL_LOG_DOMAIN') }}"
-    papertrail_log_port: "{{ lookup('env','PAPERTRAIL_LOG_PORT') }}"
     papertrail_pkg_mgr_install_latest: yes
     papertrail_pkg_mgr_update_cache: yes
-  tasks:
-    - fail:
-        msg: Tis empty
-      when: papertrail_log_domain == ''
   roles:
     - { role: '../../' }
 ...
