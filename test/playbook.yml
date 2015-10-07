@@ -8,7 +8,8 @@
         papertrail_test_log_port: "{{ lookup('env','PAPERTRAIL_LOG_PORT') }}"
         papertrail_test_hostname: "{{ lookup('env','PAPERTRAIL_TEST_HOSTNAME') }}"
         papertrail_test_connection: "{{ lookup('env','PAPERTRAIL_TEST_CONNECTION') }}"
-
+      no_log: yes
+      
     - fail:
         msg: papertrail_test_log_domain is empty
       when: papertrail_test_log_domain == ''
