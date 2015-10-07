@@ -8,11 +8,20 @@ papertrail_rsyslog_secure: yes
 papertrail_install_rsyslog: yes
 papertrail_rsyslogd_conf_dir: /etc/rsyslog.d
 papertrail_rsyslogd_conf_dir_mode: '0751'
+papertrail_rsyslogd_conf_dir_owner: root
+papertrail_rsyslogd_conf_dir_group: root
+papertrail_rsyslogd_conf_dir_recurse: no
+
 papertrail_rsyslogd_conf_file_mode: '0644'
+papertrail_rsyslogd_conf_file_owner: root
+papertrail_rsyslogd_conf_file_group: root
+
 
 papertrail_rsyslog_tls_cert_bundle_url: 'https://papertrailapp.com/tools/papertrail-bundle.pem'
 papertrail_rsyslog_tls_cert_bundle_path: '/etc/papertrail-bundle.pem'
 papertrail_rsyslog_tls_cert_bundle_mode: '0644'
+papertrail_rsyslog_tls_cert_bundle_owner: root
+papertrail_rsyslog_tls_cert_bundle_group: root
 
 papertrail_rsyslog_action_resume_interval: '10'
 papertrail_rsyslog_action_queue_size: '100000'
@@ -30,4 +39,7 @@ papertrail_rsyslog_action_queue_discard_severity: '0'
 papertrail_rsyslog_template: rsyslog.j2
 papertrail_rsyslog_file: "{{ papertrail_rsyslogd_conf_dir }}/99-papertrail.conf"
 papertrail_rsyslogd_file_mode: '0644'
+papertrail_rsyslogd_file_owner: root
+papertrail_rsyslogd_file_group: root
+
 ...

@@ -16,17 +16,17 @@
     path: "{{ papertrail_rsyslogd_conf_dir }}"
     state: directory
     mode: "{{ papertrail_rsyslogd_conf_dir_mode }}"
-    owner: "{{ papertrail_rsyslogd_conf_dir_owner | omit }}"
-    group: "{{ papertrail_rsyslogd_conf_dir_group | omit }}"
-    recurse: "{{ papertrail_rsyslogd_conf_dir_recurse | omit }}"
+    owner: "{{ papertrail_rsyslogd_conf_dir_owner }}"
+    group: "{{ papertrail_rsyslogd_conf_dir_group }}"
+    recurse: "{{ papertrail_rsyslogd_conf_dir_recurse }}"
 
 - name: Copy the template into place
   template:
     src: "{{ papertrail_rsyslog_conf_file_template }}"
     dest: "{{ papertrail_rsyslog_conf_file }}"
     mode: "{{ papertrail_rsyslogd_conf_file_mode }}"
-    owner: "{{ papertrail_rsyslogd_conf_file_owner | omit }}"
-    group: "{{ papertrail_rsyslogd_conf_file_group | omit }}"
+    owner: "{{ papertrail_rsyslogd_conf_file_owner }}"
+    group: "{{ papertrail_rsyslogd_conf_file_group }}"
   when: papertrail_rsyslog_conf_file_template is defined
 
 
@@ -45,8 +45,8 @@
     src: "{{ papertrail_rsyslog_template }}"
     dest: "{{ papertrail_rsyslog_file }}"
     mode: "{{ papertrail_rsyslogd_file_mode }}"
-    owner: "{{ papertrail_rsyslogd_file_owner | omit }}"
-    group: "{{ papertrail_rsyslogd_file_group | omit }}"
+    owner: "{{ papertrail_rsyslogd_file_owner }}"
+    group: "{{ papertrail_rsyslogd_file_group  }}"
 
 
 
