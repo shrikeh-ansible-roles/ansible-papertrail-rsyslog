@@ -4,6 +4,7 @@ papertrail_pkg_mgr_install_latest: no
 papertrail_pkg_mgr_update_cache: no
 
 papertrail_rsyslog_service: rsyslog
+papertrail_install_rsyslog_gnutls: yes
 
 papertrail_rsyslog: yes
 papertrail_rsyslog_queue_locally: yes

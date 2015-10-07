@@ -15,7 +15,10 @@
     papertrail_log_port: "{{ lookup('env','PAPERTRAIL_LOG_PORT') }}"
     papertrail_pkg_mgr_install_latest: yes
     papertrail_pkg_mgr_update_cache: yes
-
+  tasks:
+    - fail:
+        msg: Tis empty
+      when: papertrail_log_domain == ''
   roles:
     - { role: '../../' }
 ...

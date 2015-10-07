@@ -1,15 +1,4 @@
 ---
-- name: Ensure rsyslog-gnutls is installed on Debian flavours
-  apt:
-    name: rsyslog-gnutls
-    state: "{{ 'latest' if papertrail_pkg_mgr_install_latest else 'present' }}"
-  when: ansible_pkg_mgr == 'apt' and papertrail_install_rsyslog
-
-- name: Ensure rsyslog-gnutls is installed on CentOS flavours
-  yum:
-    name: rsyslog-gnutls
-    state: "{{ 'latest' if papertrail_pkg_mgr_install_latest else 'present' }}"
-  when: ansible_pkg_mgr == 'yum' and papertrail_install_rsyslog
 
 - name: Fetch the certificate bundle and store it as a variable for use
   uri:
