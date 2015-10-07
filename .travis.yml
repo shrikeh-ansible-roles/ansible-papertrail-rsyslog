@@ -8,8 +8,8 @@ addons:
       - python-pycurl
 
 install:
-- pip install --upgrade pip
-- pip install ansible
+  - pip install --upgrade pip
+  - pip install ansible
 env:
   - PAPERTRAIL_TEST_HOSTNAME: localhost
     PAPERTRAIL_TEST_CONNECTION: local
