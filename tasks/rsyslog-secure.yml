@@ -1,4 +1,3 @@
-%YAML 1.2
 ---
 - name: Ensure rsyslog-gnutls is installed on Debian flavours
   apt:

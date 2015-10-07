@@ -1,3 +1,4 @@
+---
 - hosts: local
   tasks:
 
@@ -15,3 +16,4 @@
     papertrail_log_port: "{{ lookup('env','PAPERTRAIL_LOG_PORT') }}"
   roles:
     - { role: ../../ }
+...
