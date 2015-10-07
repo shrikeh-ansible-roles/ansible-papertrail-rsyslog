@@ -50,6 +50,9 @@
     owner: "{{ papertrail_rsyslogd_file_owner }}"
     group: "{{ papertrail_rsyslogd_file_group  }}"
 
-
+- name: restart rsyslog
+  service:
+    name: "{{ papertrail_rsyslog_service }}"
+    state: restarted
 
 ...
