@@ -1,0 +1,18 @@
+---
+language: python
+python: "2.7"
+before_install:
+ - sudo apt-get update -qq
+ - sudo apt-get install -qq python-apt python-pycurl
+install:
+  - pip install ansible
+
+env:
+  global:
+    - secure: "ZpSdTe7pJenrgchyufZn52hYG5C9i6CRzYXhLE31EFkNPFaOpYcj9MjRwa7RrETGn3HhiWQ0yU5/sefYrivAzqPkeRv/n2t63CuoJu7XmbBff7CplGwe0Gwp6s/ZyEgz0oXcR74ESQv+JJtZmxwvFBBypXxmT28FmffsZwKT+s1HaPf1L/PlTFKSkQgFX7Vsl7yh0bQj+8kKmDk7l1czOiulncV5+rfKBP4j2eQSXjxVflW28cz/Wnhup/HCgrYTwPicYeYMqnO5+x5Cw5RFTHJtJUSn8H/9RT8WMbyxC2L7XdvkM/NjrlvOt4sj9olPUc/0ffcbLabh621kSlHJ1jHntBNKPFc9WzL/HGpRgLHx7lpsFvUqe0m1E012odOP/jJN/ZN2YdL2KgdjaFnsXEfiCemctdVFlmy2D/es0RRFksWRQPFD0ly0wQ9DuRbKdp6hM5AVcrCarSd4pk0WmoVfV9aIrHFsU62k87I+fEyQtOqghzcGeNapCM73biy7ismCFN/eiKJVEDXwLyuS/LqLnFuzl"
+    - PAPERTRAIL_TEST_HOSTNAME: localhost
+    - PAPERTRAIL_TEST_CONNECTION: local
+script:
+  - ansible-playbook --syntax-check -i test/inventory test/playbook.yml
+  - ansible-playbook -i test/inventory test/playbook.yml --connection=local --sudo -vvvv
+...
