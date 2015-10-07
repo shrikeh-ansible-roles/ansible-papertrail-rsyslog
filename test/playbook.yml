@@ -13,6 +13,8 @@
   vars:
     papertrail_log_domain: "{{ lookup('env','PAPERTRAIL_LOG_DOMAIN') }}"
     papertrail_log_port: "{{ lookup('env','PAPERTRAIL_LOG_PORT') }}"
+    papertrail_pkg_mgr_install_latest: yes
+    
   roles:
     - { role: '../../' }
 ...
