@@ -1,19 +1,19 @@
 ---
 - hosts: local
+  gather_facts: no
   tasks:
-
-    add_host:
-      groups: test
-      name: "{{ lookup('env','PAPERTRAIL_TEST_HOSTNAME') }}"
-      ansible_connection: "{{ lookup('env','PAPERTRAIL_TEST_CONNECTION') }}"
-      ansible_ssh_host: "{{ test_ssh_host | omit }}"
-      ansible_ssh_port: "{{ test_ssh_port | omit }}"
-
+    - name: Add the test host
+      add_host:
+        groups: test
+        name: "{{ lookup('env','PAPERTRAIL_TEST_HOSTNAME') }}"
+        ansible_connection: "{{ lookup('env','PAPERTRAIL_TEST_CONNECTION') }}"
+        ansible_ssh_host: "{{ test_ssh_host | omit }}"
+        ansible_ssh_port: "{{ test_ssh_port | omit }}"
 
 - hosts: test
   vars:
     papertrail_log_domain: "{{ lookup('env','PAPERTRAIL_LOG_DOMAIN') }}"
     papertrail_log_port: "{{ lookup('env','PAPERTRAIL_LOG_PORT') }}"
   roles:
-    - { role: ../../ }
+    - { role: '../../' }
 ...
