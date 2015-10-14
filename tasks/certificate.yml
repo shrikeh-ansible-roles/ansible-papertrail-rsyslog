@@ -8,12 +8,12 @@
   run_once: true
   register: papertrail_rsyslog_tls_cert_bundle_result
   when: papertrail_rsyslog_tls_cert_bundle is not defined
-  no_log: yes
 
 - name: Set as a variable to use for this server
   set_fact:
     papertrail_rsyslog_tls_cert_bundle: "{{ papertrail_rsyslog_tls_cert_bundle_result.content }}"
   when: papertrail_rsyslog_tls_cert_bundle is not defined
+  no_log: yes
 
 - name: Compare the bundle variable now to the checksum to save copying to the server
   fail:
