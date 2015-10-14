@@ -28,5 +28,5 @@
     papertrail_pkg_mgr_install_latest: yes
     papertrail_pkg_mgr_update_cache: yes
   roles:
-    - { role: '../../', sudo: no }
+    - { role: '../../' }
 ...
