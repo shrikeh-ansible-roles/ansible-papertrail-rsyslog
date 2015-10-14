@@ -8,6 +8,7 @@
   run_once: true
   register: papertrail_rsyslog_tls_cert_bundle_result
   when: papertrail_rsyslog_tls_cert_bundle is not defined
+  no_log: yes
 
 - name: Set as a variable to use for this server
   set_fact:
