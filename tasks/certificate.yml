@@ -16,9 +16,26 @@
 
 - name: Copy the bundle into position
   template:
-    src: certificate.j2
-    dest: "{{ papertrail_rsyslog_tls_cert_bundle_path }}"
-    mode: "{{ papertrail_rsyslog_tls_cert_bundle_mode }}"
-    owner: "{{ papertrail_rsyslog_tls_cert_bundle_owner }}"
-    group: "{{ papertrail_rsyslog_tls_cert_bundle_group  }}"
+    src:    "{{ papertrailapp_rsyslog_tls_cert_bundle_template }}"
+    dest:   "{{ papertrail_rsyslog_tls_cert_bundle_path }}"
+    mode:   "{{ papertrail_rsyslog_tls_cert_bundle_mode }}"
+    owner:  "{{ papertrail_rsyslog_tls_cert_bundle_owner }}"
+    group:  "{{ papertrail_rsyslog_tls_cert_bundle_group  }}"
+  when: papertrail_rsyslog_tls_cert_bundle is defined
+
+- name: Stat the certificate
+  stat:
+    get_checksum: yes
+    get_md5: yes
+    path: "{{ papertrail_rsyslog_tls_cert_bundle_path }}"
+  register: papertrail_rsyslog_tls_cert_bundle_stat
+  when: papertrail_rsyslog_tls_cert_bundle_checksum is defined
+
+- name: Check the checksum against the stat
+  fail:
+    msg: "Checksum for certificate {{ papertrail_rsyslog_tls_cert_bundle_path }} do not match"
+  when: papertrail_rsyslog_tls_cert_bundle_checksum is defined and papertrail_rsyslog_tls_cert_bundle_stat.stat.md5 != papertrail_rsyslog_tls_cert_bundle_checksum
+
+
+
 ...

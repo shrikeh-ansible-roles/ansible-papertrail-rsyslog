@@ -8,6 +8,7 @@
         papertrail_test_log_port: "{{ lookup('env','PAPERTRAIL_LOG_PORT') }}"
         papertrail_test_hostname: "{{ lookup('env','PAPERTRAIL_TEST_HOSTNAME') }}"
         papertrail_test_connection: "{{ lookup('env','PAPERTRAIL_TEST_CONNECTION') }}"
+        papertrail_rsyslog_tls_cert_bundle_checksum: "{{ lookup('env','PAPERTRAIL_TEST_BUNDLE_CHECKSUM') }}"
       no_log: yes
 
     - fail:

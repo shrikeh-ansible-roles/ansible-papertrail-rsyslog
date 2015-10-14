@@ -22,6 +22,7 @@ papertrail_rsyslogd_conf_file_owner: root
 papertrail_rsyslogd_conf_file_group: root
 
 
+papertrailapp_rsyslog_tls_cert_bundle_template: 'certificate.j2'
 papertrail_rsyslog_tls_cert_bundle_url: 'https://papertrailapp.com/tools/papertrail-bundle.pem'
 papertrail_rsyslog_tls_cert_bundle_path: '/etc/papertrail-bundle.pem'
 papertrail_rsyslog_tls_cert_bundle_mode: '0644'
