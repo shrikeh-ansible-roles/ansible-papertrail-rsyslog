@@ -9,7 +9,7 @@
         papertrail_test_hostname: "{{ lookup('env','PAPERTRAIL_TEST_HOSTNAME') }}"
         papertrail_test_connection: "{{ lookup('env','PAPERTRAIL_TEST_CONNECTION') }}"
       no_log: yes
-      
+
     - fail:
         msg: papertrail_test_log_domain is empty
       when: papertrail_test_log_domain == ''
@@ -28,5 +28,5 @@
     papertrail_pkg_mgr_install_latest: yes
     papertrail_pkg_mgr_update_cache: yes
   roles:
-    - { role: '../../' }
+    - { role: '../../', sudo: no }
 ...
