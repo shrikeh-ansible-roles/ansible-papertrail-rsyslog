@@ -7,7 +7,11 @@ $ActionSendStreamDriverMode 1 # require TLS
 $ActionSendStreamDriverAuthMode x509/name # authenticate by hostname
 $ActionSendStreamDriverPermittedPeer *.papertrailapp.com
 {% endif %}
-{% if papertrail_rsyslog_queue_locally %}
+
+{% if papertrail_rsyslog_queue is defined and papertrail_rsyslog_queue %}
+{% if papertrail_rsyslog_work_dir is defined %}
+$WorkDirectory {{ papertrail_rsyslog_work_dir }}
+{% endif %}
 $ActionResumeInterval {{ papertrail_rsyslog_action_resume_interval }}
 $ActionQueueSize {{ papertrail_rsyslog_action_queue_size }}
 $ActionQueueDiscardMark {{ papertrail_rsyslog_action_discard_mark }}
@@ -22,4 +26,4 @@ $ActionQueueTimeoutEnqueue {{ papertrail_rsyslog_action_queue_timeout_enqueue }}
 $ActionQueueDiscardSeverity {{ papertrail_rsyslog_action_queue_discard_severity }}
 {% endif %}
 
-*.*   @@{{ papertrail_log_domain | mandatory }}:{{ papertrail_log_port | mandatory }}
+*.*   {% if papertrail_rsyslog_secure %}@{% endif %}@{{ papertrail_log_domain | mandatory }}:{{ papertrail_log_port | mandatory }}

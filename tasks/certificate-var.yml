@@ -1,0 +1,25 @@
+---
+- name: Fetch the certificate bundle and store it as a variable for use
+  uri:
+    url: "{{ papertrail_rsyslog_tls_cert_bundle_url }}"
+    return_content: yes
+  delegate_to: 127.0.0.1
+  run_once: true
+  sudo: no
+  register: papertrail_rsyslog_tls_cert_bundle_result
+  when: papertrail_rsyslog_tls_cert_bundle is not defined
+
+- name: Set as a variable to use for this server
+  set_fact:
+    papertrail_rsyslog_tls_cert_bundle: "{{ papertrail_rsyslog_tls_cert_bundle_result.content }}"
+  when: papertrail_rsyslog_tls_cert_bundle is not defined
+  no_log: yes
+
+- name: Copy the bundle into position
+  template:
+    src:    "{{ papertrail_rsyslog_tls_cert_bundle_template }}"
+    dest:   "{{ papertrail_rsyslog_tls_cert_bundle_path }}"
+    mode:   "{{ papertrail_rsyslog_tls_cert_bundle_mode }}"
+    owner:  "{{ papertrail_rsyslog_tls_cert_bundle_owner }}"
+    group:  "{{ papertrail_rsyslog_tls_cert_bundle_group  }}"
+...

@@ -1,6 +1,17 @@
 ---
-- name: Install rsyslog and gnutls if necessary
-  include: install.yml
+- name: Ensure rsyslog is installed on Debian flavours
+  apt:
+    name: rsyslog
+    state: "{{ 'latest' if papertrail_pkg_mgr_install_latest else 'present' }}"
+    update_cache: "{{ papertrail_pkg_mgr_update_cache }}"
+  when: ansible_pkg_mgr == 'apt' and papertrail_install_rsyslog
+
+- name: Ensure rsyslog is installed on CentOS flavours
+  yum:
+    name: rsyslog
+    state: "{{ 'latest' if papertrail_pkg_mgr_install_latest else 'present' }}"
+    update_cache: "{{ papertrail_pkg_mgr_update_cache }}"
+  when: ansible_pkg_mgr == 'yum' and papertrail_install_rsyslog
 
 - name: Make the rsyslog.d directory
   file:
@@ -34,6 +45,20 @@
 - name: Set up the certificate bundle and requirements if using secure mode
   include: certificate.yml
   when: papertrail_rsyslog_secure
+  notify:
+    - restart rsyslog
+
+- name: Create the work directory for rsyslog
+  file:
+    path: "{{ papertrail_rsyslog_work_dir }}"
+    state: directory
+    mode: "{{ papertrail_rsyslog_work_dir_mode | default('0644') }}"
+    owner: "{{ papertrail_rsyslog_work_dir_owner | default('root') }}"
+    group: "{{ papertrail_rsyslog_work_dir_group | default('root') }}"
+    recurse: "{{ papertrail_rsyslog_work_dir_recurse | default( 'no') }}"
+  when: papertrail_rsyslog_work_dir is defined
+  notify:
+    - restart rsyslog
 
 - name: Put the papertrail config into the rsyslog.d directory
   template:
