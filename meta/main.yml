@@ -1,5 +1,4 @@
 ---
----
 galaxy_info:
   author: Barney Hanlon
   description: Role to setup papertrail (https://papertrailapp.com) remote logging via rsyslog
