@@ -5,6 +5,7 @@
     state: "{{ 'latest' if papertrail_pkg_mgr_install_latest else 'present' }}"
     update_cache: "{{ papertrail_pkg_mgr_update_cache }}"
   when: ansible_pkg_mgr == 'apt' and papertrail_install_rsyslog
+  become: true
 
 - name: Ensure rsyslog is installed on CentOS flavours
   yum:
@@ -12,6 +13,7 @@
     state: "{{ 'latest' if papertrail_pkg_mgr_install_latest else 'present' }}"
     update_cache: "{{ papertrail_pkg_mgr_update_cache }}"
   when: ansible_pkg_mgr == 'yum' and papertrail_install_rsyslog
+  become: true
 
 - name: Make the rsyslog.d directory
   file:
@@ -21,6 +23,7 @@
     owner: "{{ papertrail_rsyslogd_conf_dir_owner }}"
     group: "{{ papertrail_rsyslogd_conf_dir_group }}"
     recurse: "{{ papertrail_rsyslogd_conf_dir_recurse }}"
+  become: true
 
 - name: Copy the template into place
   template:
@@ -32,6 +35,7 @@
   when: papertrail_rsyslog_conf_file_template is defined
   notify:
     - restart rsyslog
+  become: true
 
 
 - name: Ensure the rsyslog.d directory is included
@@ -59,6 +63,7 @@
   when: papertrail_rsyslog_work_dir is defined
   notify:
     - restart rsyslog
+  become: true
 
 - name: Put the papertrail config into the rsyslog.d directory
   template:
@@ -69,5 +74,6 @@
     group: "{{ papertrail_rsyslogd_file_group  }}"
   notify:
     - restart rsyslog
+  become: true
 
 ...

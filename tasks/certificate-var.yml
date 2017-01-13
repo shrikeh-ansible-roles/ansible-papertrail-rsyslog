@@ -22,4 +22,5 @@
     mode:   "{{ papertrail_rsyslog_tls_cert_bundle_mode }}"
     owner:  "{{ papertrail_rsyslog_tls_cert_bundle_owner }}"
     group:  "{{ papertrail_rsyslog_tls_cert_bundle_group  }}"
+  become: true
 ...
