@@ -5,7 +5,7 @@
     url: "{{ papertrail_rsyslog_tls_cert_bundle_url }}"
     dest: "{{ papertrail_rsyslog_tls_cert_bundle_download_path }}"
   delegate_to: 127.0.0.1
-  sudo: no
+  become: no
 
 - name: Stat the bundle
   stat:
@@ -15,7 +15,7 @@
   register: papertrail_rsyslog_tls_cert_bundle_download
   delegate_to: 127.0.0.1
   run_once: true
-  sudo: no
+  become: no
 
 - name: Compare the bundle variable now to the checksum to save copying to the server
   fail:
@@ -33,6 +33,7 @@
     mode:   "{{ papertrail_rsyslog_tls_cert_bundle_mode }}"
     owner:  "{{ papertrail_rsyslog_tls_cert_bundle_owner }}"
     group:  "{{ papertrail_rsyslog_tls_cert_bundle_group  }}"
+  become: true
 
 - set_fact:
     papertrail_rsyslog_tls_cert_bundle_do_not_use_var: yes

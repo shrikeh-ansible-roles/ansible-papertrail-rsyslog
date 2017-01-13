@@ -5,12 +5,14 @@
     name: rsyslog-gnutls
     state: "{{ 'latest' if papertrail_pkg_mgr_install_latest else 'present' }}"
   when: ansible_pkg_mgr == 'apt' and papertrail_install_rsyslog_gnutls
+  become: true
 
 - name: Ensure rsyslog-gnutls is installed on CentOS flavours
   yum:
     name: rsyslog-gnutls
     state: "{{ 'latest' if papertrail_pkg_mgr_install_latest else 'present' }}"
   when: ansible_pkg_mgr == 'yum' and papertrail_install_rsyslog_gnutls
+  become: true
 
 - include: certificate-file.yml
   when: papertrail_rsyslog_tls_cert_bundle_download_path is defined
@@ -25,6 +27,7 @@
     path: "{{ papertrail_rsyslog_tls_cert_bundle_path }}"
   register: papertrail_rsyslog_tls_cert_bundle_stat
   when: papertrail_rsyslog_tls_cert_bundle_checksum is defined
+  become: true
 
 - name: Check the checksum against the stat
   fail:
